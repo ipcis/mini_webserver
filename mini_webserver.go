@@ -23,7 +23,7 @@ func main() {
 		}
 
 		// Protokollieren der heruntergeladenen Datei und der Client-IP-Adresse
-		fmt.Printf("Client %s hat die Datei %s heruntergeladen.\n", clientIP, filePath)
+		fmt.Printf("Client %s has downloaded %s \n", clientIP, filePath)
 
 		// Öffnen der Datei
 		file, err := http.Dir(dir).Open(filePath)
@@ -51,6 +51,6 @@ func main() {
 	})
 
 	// Starten des Servers auf Port 8080
-	fmt.Println("Der Webserver ist gestartet. Sie können die Dateien unter http://localhost:8080/download/ herunterladen.")
+	fmt.Println("Webserver is running. You can download files here: http://localhost:8080/download/ ")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
