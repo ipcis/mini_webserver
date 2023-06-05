@@ -8,5 +8,7 @@ Minimal webserver in go
 
 ## Compile (Windows)
 SET GOOS=windows
+
 SET GOARCH=amd64
+
 go build -o bin/app-amd64.exe app.go
