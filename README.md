@@ -7,6 +7,8 @@ The program is a minimal web server written in Go. It allows clients to upload a
 
 <code>curl -O localhost:8080/download/test.txt</code>
 
+<code>curl -X POST -F "file=@AnyDesk.exe" http://localhost:8080/upload</code>
+
 
 ## Compile (Windows)
 SET GOOS=windows
