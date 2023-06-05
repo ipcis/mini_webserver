@@ -43,9 +43,12 @@ The Minimalistic Go Web Server is a lightweight file server that allows clients 
 
 
 ## Client-side usage
-<code>curl -O localhost:8080/download/test.txt</code>
-
-<code>curl -X POST -F "file=@AnyDesk.exe" http://localhost:8080/upload</code>
+   ```shell
+   curl -O localhost:8080/download/test.txt
+   ```
+   ```shell
+   curl -X POST -F "file=@AnyDesk.exe" http://localhost:8080/upload
+   ```
 
 
 ## Compile (Windows)
