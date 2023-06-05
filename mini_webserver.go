@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -10,6 +11,10 @@ import (
 )
 
 func main() {
+	// Parse command-line arguments
+	port := flag.Int("port", 8080, "the port number to run the server on")
+	flag.Parse()
+
 	// Directory where downloadable files are located
 	dir := "./"
 
@@ -85,7 +90,8 @@ func main() {
 		fmt.Fprintf(w, "File '%s' successfully uploaded.\n", handler.Filename)
 	})
 
-	// Start the server on port 8080
-	fmt.Println("The web server has started. You can download files from http://localhost:8080/download/ and upload files to http://localhost:8080/upload.")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	// Start the server on the specified port
+	addr := fmt.Sprintf(":%d", *port)
+	fmt.Printf("The web server is running on http://localhost%s\n", addr)
+	log.Fatal(http.ListenAndServe(addr, nil))
 }
