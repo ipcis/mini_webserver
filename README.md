@@ -5,7 +5,8 @@ Minimal webserver in go
 
 <code>curl -O localhost:8080/download/test.txt</code>
 
-Compile (Windows)
+
+# Compile (Windows)
 SET GOOS=windows
 SET GOARCH=amd64
 go build -o bin/app-amd64.exe app.go
