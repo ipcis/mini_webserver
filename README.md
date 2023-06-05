@@ -56,14 +56,20 @@ The Minimalistic Go Web Server is a lightweight file server that allows clients 
 
 
 ## Compile (Windows)
+```shell
 SET GOOS=windows
-
+```
+```shell
 SET GOARCH=amd64
-
+```
+```shell
 go build -o bin/app-amd64.exe mini_webserver.go
+```
 
 ## Compile (Linux)
+ ```shell
 GOOS=linux GOARCH=amd64 go build -o bin/app-amd64 mini_webserver.go
+   ```
 
 ## Contributing
 
