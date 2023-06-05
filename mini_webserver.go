@@ -2,30 +2,23 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"net/http"
-	"strings"
+	"os"
+	"path/filepath"
 )
 
 func main() {
-	// Verzeichnis, in dem sich die herunterladbaren Dateien befinden
+	// Directory where downloadable files are located
 	dir := "./"
 
-	// Handler-Funktion für den Download von Dateien
+	// Handler function for file download
 	http.HandleFunc("/download/", func(w http.ResponseWriter, r *http.Request) {
-		// Pfad zum angeforderten Download
+		// Path to the requested download
 		filePath := dir + r.URL.Path[len("/download/"):]
 
-		// Ermitteln der Client-IP-Adresse
-		clientIP := r.RemoteAddr
-		if index := strings.LastIndex(clientIP, ":"); index != -1 {
-			clientIP = clientIP[:index]
-		}
-
-		// Protokollieren der heruntergeladenen Datei und der Client-IP-Adresse
-		fmt.Printf("Client %s has downloaded %s \n", clientIP, filePath)
-
-		// Öffnen der Datei
+		// Open the file
 		file, err := http.Dir(dir).Open(filePath)
 		if err != nil {
 			http.NotFound(w, r)
@@ -33,7 +26,7 @@ func main() {
 		}
 		defer file.Close()
 
-		// Ermitteln der Dateigröße
+		// Get file size
 		stat, err := file.Stat()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -41,16 +34,58 @@ func main() {
 		}
 		fileSize := stat.Size()
 
-		// Einstellen des HTTP-Headers
+		// Set HTTP headers
 		w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", stat.Name()))
 		w.Header().Set("Content-Type", "application/octet-stream")
 		w.Header().Set("Content-Length", fmt.Sprintf("%d", fileSize))
 
-		// Senden der Datei als HTTP-Response
+		// Serve the file as an HTTP response
 		http.ServeContent(w, r, stat.Name(), stat.ModTime(), file)
 	})
 
-	// Starten des Servers auf Port 8080
-	fmt.Println("Webserver is running. You can download files here: http://localhost:8080/download/ ")
+	// Handler function for file upload
+	http.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
+		// Check if the request uses HTTP POST multipart/form-data
+		if r.Method != http.MethodPost {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+
+		// Process the uploaded file form field
+		file, handler, err := r.FormFile("file")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer file.Close()
+
+		// Create the destination directory if it doesn't exist
+		if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Create the destination file
+		dstPath := filepath.Join(dir, handler.Filename)
+		dstFile, err := os.Create(dstPath)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer dstFile.Close()
+
+		// Copy the uploaded file content to the destination file
+		if _, err := io.Copy(dstFile, file); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Successful response
+		w.WriteHeader(http.StatusCreated)
+		fmt.Fprintf(w, "File '%s' successfully uploaded.\n", handler.Filename)
+	})
+
+	// Start the server on port 8080
+	fmt.Println("The web server has started. You can download files from http://localhost:8080/download/ and upload files to http://localhost:8080/upload.")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
