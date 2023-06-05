@@ -34,6 +34,10 @@ The Minimalistic Go Web Server is a lightweight file server that allows clients 
    ```shell
    go run mini_webserver.go
    ```
+   or
+     ```shell
+   go run mini_webserver.go -port 8888
+   ```
 
 4. The server is now running on `http://localhost:8080`. You can access the following endpoints:
 
