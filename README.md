@@ -1,4 +1,4 @@
-# mini_webserver
+## Minimal Webserver
 Minimal webserver in go
 
 <code>go run mini_webserver.go</code>
