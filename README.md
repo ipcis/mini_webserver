@@ -1,10 +1,48 @@
-## Minimal Webserver
-(Minimal webserver in go)
 
-The Go-based web server is a minimalistic file server that allows clients to download files and upload files to the server. It provides a simple and straightforward way to share files over HTTP. Clients can download files by accessing the /download/ endpoint followed by the desired file's path. The server retrieves the file from the specified directory and sends it as a download to the client. Additionally, clients can upload files to the server using the /upload endpoint. The program handles file uploads through HTTP POST requests, allowing users to easily upload files either through cURL or a web browser. Uploaded files are saved in a designated directory on the server. The program logs information such as the client's IP address and the filename whenever a file is downloaded, providing a convenient way to keep track of file access. With its simplicity and functionality, the Go web server is a versatile tool for sharing and managing files over HTTP.
+# Minimalistic Go Web Server
 
-<code>go run mini_webserver.go</code>
+The Minimalistic Go Web Server is a lightweight file server that allows clients to download files and upload files to the server using HTTP. It provides a simple and convenient way to share and manage files over the web.
 
+## Features
+
+- Download files by accessing the `/download/` endpoint followed by the desired file's path.
+- Upload files to the server using the `/upload` endpoint.
+- Supports file uploads through HTTP POST requests, making it compatible with cURL and web browsers.
+- Logs client IP addresses and filenames whenever a file is downloaded.
+- Lightweight and minimalistic design for easy deployment and usage.
+
+## Requirements
+
+- Go programming language (version 1.15 or later)
+
+## Usage
+
+1. Clone the repository:
+
+   ```shell
+   git clone https://github.com/your-username/your-repository.git
+   ```
+
+2. Change into the project directory:
+
+   ```shell
+   cd your-repository
+   ```
+
+3. Start the server:
+
+   ```shell
+   go run main.go
+   ```
+
+4. The server is now running on `http://localhost:8080`. You can access the following endpoints:
+
+   - Download files: `http://localhost:8080/download/`
+   - Upload files: `http://localhost:8080/upload`
+
+
+
+## Client-side usage
 <code>curl -O localhost:8080/download/test.txt</code>
 
 <code>curl -X POST -F "file=@AnyDesk.exe" http://localhost:8080/upload</code>
@@ -19,3 +57,14 @@ go build -o bin/app-amd64.exe app.go
 
 ## Compile (Linux)
 GOOS=linux GOARCH=amd64 go build -o bin/app-amd64 app.go
+
+## Contributing
+
+Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+
+
