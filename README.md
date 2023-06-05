@@ -20,19 +20,19 @@ The Minimalistic Go Web Server is a lightweight file server that allows clients 
 1. Clone the repository:
 
    ```shell
-   git clone https://github.com/your-username/your-repository.git
+   git clone https://github.com/ipcis/mini_webserver.git
    ```
 
 2. Change into the project directory:
 
    ```shell
-   cd your-repository
+   cd mini_webserver
    ```
 
 3. Start the server:
 
    ```shell
-   go run main.go
+   go run mini_webserver.go
    ```
 
 4. The server is now running on `http://localhost:8080`. You can access the following endpoints:
@@ -53,10 +53,10 @@ SET GOOS=windows
 
 SET GOARCH=amd64
 
-go build -o bin/app-amd64.exe app.go
+go build -o bin/app-amd64.exe mini_webserver.go
 
 ## Compile (Linux)
-GOOS=linux GOARCH=amd64 go build -o bin/app-amd64 app.go
+GOOS=linux GOARCH=amd64 go build -o bin/app-amd64 mini_webserver.go
 
 ## Contributing
 
